@@ -1,0 +1,19 @@
+{% load static %}
+<html>
+    <head>
+        <title>PolyglotDico</title>
+       <link rel="stylesheet" href="{% static 'listings/styles.css' %}">
+    </head>
+    <body>
+        <nav>
+            <a href="{% url 'dictionary-list'%}">Liste des dictionnaires</a>
+            <a href="{% url  'new-word' %}">Ajouter un nouveau mot</a>  
+        </nav>
+
+        {% block content %}
+        <h1>PolyglotDico</h1>
+        {% endblock %}
+
+    </body>
+</html>
+

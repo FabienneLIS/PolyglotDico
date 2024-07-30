@@ -1,0 +1,27 @@
+<!-- new_word.html -->
+{% extends 'listings/base.html' %}
+
+{% block content %}
+<h1>Ajouter un nouveau mot</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div>
+        {{ form.source_word.label_tag }} {{ form.source_word }}
+    </div>
+    <div>
+        {{ form.target_word.label_tag }} {{ form.target_word }}
+    </div>
+    <div>
+        {{ form.dictionary.label_tag }} {{ form.dictionary }}
+    </div>
+    <div>
+        {{ form.category.label_tag }} {{ form.category }}
+    </div>
+    <div>
+        {{ form.new_category.label_tag }} {{ form.new_category }}
+    </div>
+    <input type="submit" value="Envoyer">
+</form>
+{% endblock %}
+

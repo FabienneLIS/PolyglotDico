@@ -1,0 +1,29 @@
+{% extends 'listings/base.html' %}
+
+{% block content %}
+    <body>
+        <h1>Liste des dictionnaires</h1>
+
+            <h2>{{ dictionary.name }}</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Langue source</th>
+                        <th>Langue cible</th>
+                        <th>Catégorie</th>
+                        <th>nom du dictionnaire</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for word in words %}
+                        <tr>
+                            <td>{{ word.source_word  }}</td>
+                            <td>{{ word.target_word }}</td>
+                            <td>{{word.category.name}}</td>
+                            <td>{{word.dictionary.name}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+    </body>
+    {% endblock %}
