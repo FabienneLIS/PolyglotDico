@@ -2,12 +2,11 @@
 <html>
     <head>
         <title>PolyglotDico</title>
-       <link rel="stylesheet" href="{% static 'listings/styles.css' %}">
+       <link rel="stylesheet" href="{% static 'listings/style.css' %}">
     </head>
     <body>
         <nav>
             <a href="{% url 'dictionary-list'%}">Liste des dictionnaires</a>
-            <a href="{% url  'new-word' %}">Ajouter un nouveau mot</a>  
         </nav>
 
         {% block content %}

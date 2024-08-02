@@ -16,6 +16,9 @@ class NewWordForm(forms.ModelForm):
     class Meta:
         model = Word
         fields = ["source_word", "target_word", "category", "dictionary"]
+        widgets = {
+            'dictionary': forms.HiddenInput(),  # Masquer le champ dictionary
+        }
 
     def __init__(self, *args, **kwargs):
         super(NewWordForm, self).__init__(*args, **kwargs)

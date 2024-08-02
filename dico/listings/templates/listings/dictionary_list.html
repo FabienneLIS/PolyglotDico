@@ -7,8 +7,11 @@
 <ul>
     {% for dictionary in dictionaries %}
         <li>
-            <a href="{% url 'dictionary-detail' dictionary.id %}">{{ dictionary.name }}</a>
-            <a href="{% url 'dictionary-delete' dictionary.id %}">[Supprimer]</a> 
+            <a class="dictionary--title" href="{% url 'dictionary-detail' dictionary.id %}">{{ dictionary.name }}</a>
+            <div>
+                <a href="{% url 'dictionary-update' dictionary.id %}">[modifier le nom]</a>
+                <a href="{% url 'dictionary-delete' dictionary.id %}">[Supprimer]</a> 
+            </div>
         </li>
     {% endfor %}
 </ul>

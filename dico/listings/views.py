@@ -27,6 +27,24 @@ def dictionary_add(request):
         form = DictionaryForm()
 
     return render(request, 'listings/dictionary_list_add.html', {'form': form})
+
+def dictionary_update(request, id):
+    dictionaries = Dictionary.objects.get(id=id)
+
+    if request.method == 'POST':
+        form = DictionaryForm(request.POST, instance=dictionaries)
+        if form.is_valid():
+            # mettre à jour le groupe existant dans la base de données
+            form.save()
+            # rediriger vers la page détaillée du groupe que nous venons de mettre à jour
+            return redirect('band-detail', dictionaries.id)
+    else:
+        form = DictionaryForm(instance=dictionaries)
+
+    return render(request,
+                'listings/dictionary_list_update.html',
+                {'form': form})
+
 def dictionary_list_delete(request, id):
     dictionary = Dictionary.objects.get(id=id)  # nécessaire pour GET et pour POST
 
@@ -53,13 +71,17 @@ def dictionary_detail(request, dictionary_id):
     return render(request, "listings/words_list.html", context)
 
 
-def new_word(request):
+def new_word(request, dictionary_id):
+    dictionary = get_object_or_404(Dictionary, id=dictionary_id)
+    
     if request.method == "POST":
         form = NewWordForm(request.POST)
         if form.is_valid():
-            word = form.save()
-            return redirect("dictionary-detail", dictionary_id=word.dictionary.id)
+            word = form.save(commit=False)
+            word.dictionary = dictionary
+            word.save()
+            return redirect("dictionary-detail", dictionary_id=dictionary.id)
     else:
-        form = NewWordForm()
-
-    return render(request, "listings/new_word.html", {"form": form})
+        form = NewWordForm(initial={'dictionary': dictionary})
+    
+    return render(request, "listings/new_word.html", {"form": form, "dictionary": dictionary})

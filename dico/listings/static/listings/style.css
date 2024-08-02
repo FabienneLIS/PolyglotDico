@@ -1,0 +1,31 @@
+* {
+    background-color: rgb(240, 230, 230);
+}
+
+
+body {
+  text-align: center;
+}
+
+nav {
+    text-align: center;
+    margin-top: 5%;
+}
+nav a {
+    color: rgb(27, 22, 27);
+    background-color: blueviolet;
+    text-decoration: none;
+    margin: 0 20px 0 20px;
+    padding: 20px 40px 20px 40px;
+    border-radius: 10px;
+}
+nav a:hover{
+    color: rgb(231, 177, 231);
+    background-color: rgb(61, 20, 99);  
+}
+
+.dictionary--title{
+    text-decoration: none;
+    color: rgb(99, 33, 161);
+    font-size: 30px;
+}

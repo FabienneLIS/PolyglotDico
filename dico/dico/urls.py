@@ -24,6 +24,8 @@ urlpatterns = [
     path("home_page/", views.home_page, name="home-page"),
     path("dictionary/list/", views.dictionary_list, name="dictionary-list"),
     path("dictionary/add/", views.dictionary_add, name="dictionary-add"),
+    path('dictionary/<int:id>/update/', views.dictionary_update, name='dictionary-update'),
+    
     path(
         "dictionary/<int:id>/delete/",
         views.dictionary_list_delete,
@@ -34,9 +36,6 @@ urlpatterns = [
         views.dictionary_detail,
         name="dictionary-detail",
     ),
-    path(
-        "dictionary/new_word/",
-        views.new_word,
-        name="new-word",
-    ),
+      path("dictionary/<int:dictionary_id>/new_word/", views.new_word, name="new-word"),
+
 ]
