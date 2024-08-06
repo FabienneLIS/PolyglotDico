@@ -1,8 +1,8 @@
 # views.py
 
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Dictionary, Word
-from listings.forms import NewWordForm, DictionaryForm
+from .models import Dictionary, Word, Category
+from listings.forms import NewWordForm, DictionaryForm, SearchForm
 
 
 def home_page(request):
@@ -63,25 +63,57 @@ def dictionary_list_delete(request, id):
 
 def dictionary_detail(request, dictionary_id):
     dictionary = get_object_or_404(Dictionary, id=dictionary_id)
-    words = Word.objects.filter(dictionary=dictionary)
+    search_form = SearchForm(request.GET or None)
+    
+    query = search_form.cleaned_data.get('query') if search_form.is_valid() else None
+    if query:
+        words = Word.objects.filter(
+            dictionary=dictionary,
+            source_word__icontains=query
+        ) | Word.objects.filter(
+            dictionary=dictionary,
+            target_word__icontains=query
+        )
+    else:
+        words = Word.objects.filter(dictionary=dictionary)
+    
     context = {
         "dictionary": dictionary,
         "words": words,
+        "search_form": search_form,
     }
     return render(request, "listings/words_list.html", context)
 
 
 def new_word(request, dictionary_id):
     dictionary = get_object_or_404(Dictionary, id=dictionary_id)
-    
+
     if request.method == "POST":
         form = NewWordForm(request.POST)
         if form.is_valid():
             word = form.save(commit=False)
             word.dictionary = dictionary
+            if not word.category:
+                default_category, created = Category.objects.get_or_create(name="no category")
+                word.category = default_category
             word.save()
             return redirect("dictionary-detail", dictionary_id=dictionary.id)
     else:
         form = NewWordForm(initial={'dictionary': dictionary})
-    
-    return render(request, "listings/new_word.html", {"form": form, "dictionary": dictionary})
+
+    categories = Category.objects.all()
+    return render(request, "listings/new_word.html", {"form": form, "dictionary": dictionary, "categories": categories})
+
+
+
+def new_word_delete(request, word_id):
+    word = get_object_or_404(Word, id=word_id)
+
+    if request.method == "POST":
+        dictionary_id = word.dictionary.id  # Sauvegarder l'ID du dictionnaire pour redirection après suppression
+        word.delete()
+        return redirect("dictionary-detail", dictionary_id=dictionary_id)
+
+    return render(
+        request, "listings/word__delete.html", {"word": word}
+    )

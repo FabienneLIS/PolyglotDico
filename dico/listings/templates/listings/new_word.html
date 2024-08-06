@@ -1,4 +1,3 @@
-<!-- listings/new_word.html -->
 {% extends 'listings/base.html' %}
 
 {% block content %}
@@ -12,18 +11,35 @@
     <div>
         {{ form.target_word.label_tag }} {{ form.target_word }}
     </div>
-    <div style="display: none;">
+    <div>
         {{ form.dictionary.label_tag }} {{ form.dictionary }}
     </div>
     <div>
-        {{ form.category.label_tag }} {{ form.category }}
+        <label for="category-select">Sélectionner une catégorie</label>
+        <select id="category-select" name="category">
+            <option value="{{ form.fields.category.initial.id }}">{{ form.fields.category.initial.name }}</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="button" id="add-category-btn">+</button>
     </div>
-    <div>
+    <div id="new-category-div" style="display: none;">
         {{ form.new_category.label_tag }} {{ form.new_category }}
     </div>
     <input type="submit" value="Envoyer">
 </form>
 
 <a href="{% url 'dictionary-detail' dictionary.id %}">Retour au dictionnaire</a>
-{% endblock %}
 
+<script>
+document.getElementById('add-category-btn').addEventListener('click', function() {
+    var newCategoryDiv = document.getElementById('new-category-div');
+    if (newCategoryDiv.style.display === 'none') {
+        newCategoryDiv.style.display = 'block';
+    } else {
+        newCategoryDiv.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

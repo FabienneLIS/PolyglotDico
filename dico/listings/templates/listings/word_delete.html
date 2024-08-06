@@ -1,0 +1,10 @@
+{% block content %}
+    <h1>Supprimer le mot</h1>
+    <p>Êtes-vous sûr de vouloir supprimer le mot "{{ word.source_word }} - {{ word.target_word }}" ?</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirmer</button>
+        <a href="{% url 'dictionary-detail' word.dictionary.id %}">Annuler</a>
+    </form>
+{% endblock %}

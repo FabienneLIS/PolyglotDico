@@ -36,6 +36,8 @@ urlpatterns = [
         views.dictionary_detail,
         name="dictionary-detail",
     ),
-      path("dictionary/<int:dictionary_id>/new_word/", views.new_word, name="new-word"),
+    path("dictionary/<int:dictionary_id>/new_word/", views.new_word, name="new-word"),
+    path('word/<int:word_id>/delete/', views.new_word_delete, name='word-delete'),
+
 
 ]
